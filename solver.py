@@ -6,7 +6,7 @@ import argparse
 import utils
 
 from student_utils import *
-from christofides import *
+from christofides  import *
 """
 ======================================================================
   Complete the following function.
@@ -31,6 +31,11 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
     homes = list_of_homes
     start = starting_car_location
     edges = adjacency_matrix
+
+    ## TODO: Make the graph complete using the shortest-path-pair algorithm as a heuristic ##
+
+    # Run Christofides on the graph
+    length, path = tsp(edges)
 
 """
 ======================================================================
