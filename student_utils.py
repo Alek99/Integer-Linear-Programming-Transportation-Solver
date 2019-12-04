@@ -89,7 +89,6 @@ def cost_of_solution(G, car_cycle, dropoff_mapping):
             car_cycle = []
         else:
             car_cycle = get_edges_from_path(car_cycle[:-1]) + [(car_cycle[-2], car_cycle[-1])]
-            print(car_cycle)
         if len(car_cycle) != 1:
             driving_cost = sum([G.edges[e]['weight'] for e in car_cycle]) * 2 / 3
         else:
