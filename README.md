@@ -1,6 +1,8 @@
 # CS 170 Fall 2019 Project, TeamFAV
 
-Collaborators: https://github.com/vaibhavrdbhat, https://github.com/farhanchowdhury
+Collaborators: 
+https://github.com/vaibhavrdbhat  
+https://github.com/farhanchowdhury  
 
 # CS 170 Efficient Algorithms and Intractable Problems Fall 2019 P. Raghavendra and S. Rao
 
