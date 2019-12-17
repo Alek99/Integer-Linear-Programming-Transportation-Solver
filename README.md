@@ -1,4 +1,8 @@
 # TeamFAV (Farhan, Alek, Vaibhav)
+Collaborators:  
+Bhat, Vaibhav @ https://github.com/vaibhavrdbhat  
+Chowdhury, Farhan @ https://github.com/farhanchowdhury 
+ 
 To run out solver simply input the same commands as in the instructions  
 
 python3 solver.py --all inputs outputs  
@@ -76,8 +80,3 @@ We took a modified ILP approach using Gurobi’s ILP solver. With Integer Linear
 Reducing ILP to Drive the TAs Home would be useful to ensure that all homes are spanned in addition to ensuring a cyclic path exists for the driver. After reducing the ILP using the Gurobi solver we tried to come up with an efficient drop off path the driver can take.
  
   We reduced the Drive the TAs Home Problem to a modified Travelling Salesman Problem in which we cut ‘bridges’ in the graph and completing the subgraph by adding weighted edges based off of the all-pairs shortest path heuristic. The graph G is determined by the locations as the vertices and routes as the weighted edges. The graph is undirected therefore we have a symmetric matrix. In order to keep track of the locations that can guarantee that locations that are not in the houses that have degree 1 must be deleted in order to prevent useless traversal drive. We recurse this function in order to cut longer singular stretches of road. For all houses that have degree 1 should be cut from the graph as well as any cyclic path not including a drive to these houses will retain optimality as (2)(2⁄3)(D) total energy is greater than D. For any locations that can only be reached by two or less locations (the edge as degree two or less), we cut the location and its two incident edges. Keeping track of the edges is important in order to further compute what we call “bridges” - location is a home with degree 2 whose edges leave two distinct connected components on both ends when cut from the graph. Another type of edge would be along a singular path to a leaf or lead to a leaf itself. As TSP must be run on a complete graph, we add weighted edges by summing the entire row of the in-degree node, in order to avoid the TSP using these edges that are not really present. With the remaining graph, we run the ILP subtourelim and subtour function from the Gurobi ILP on all of its completed connected components before reconnecting the “bridges”. The ‘bridges’ are determined by checking if the edges that were cut connects two connected components.
-  
-  
-Collaborators:  
-Bhat, Vaibhav @ https://github.com/vaibhavrdbhat  
-Chowdhury, Farhan @ https://github.com/farhanchowdhury  
