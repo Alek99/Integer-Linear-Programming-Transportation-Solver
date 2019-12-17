@@ -3,7 +3,7 @@ Collaborators:
 Bhat, Vaibhav @ https://github.com/vaibhavrdbhat  
 Chowdhury, Farhan @ https://github.com/farhanchowdhury 
  
-To run out solver simply input the same commands as in the instructions  
+To run out solver simply input the same commands as in the instructions.  
 
 python3 solver.py --all inputs outputs  
 
