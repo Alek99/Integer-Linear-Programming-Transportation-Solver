@@ -59,6 +59,7 @@ Campanile Campanile
 
 # Submission Evaluation
 Your score on a particular output will be determined by the sum of the energy it takes the car to drive the route and the total energy it takes for all the TAs to walk home. You may assume that the TAs will take the shortest path home from whichever location they are dropped off at. Formally, let the path of the car be u0 . . . un−1 where u0 = un−1 = s, let b j be the location you drop off the j-th TA, and let h j be that TA’s home. Let li j be the length of the road between locations i and j (which must be adjacent), and di j be the shortest path distance between locations i and j (which need not be adjacent). Your score is given by:
-2 n−1 |H|−1 3·∑lui−1ui+ ∑dbjhj
-i=1 j=0
+
+![alt text](https://github.com/Alek99/Integer-Linear-Programming-Transportation-Solver/blob/master/Screen%20Shot%202019-12-17%20at%2012.50.20%20AM.png)  
+
 Note that the 2 factor in the first term comes from the fact that the car driver expends 2 the amount of energy as a TA.
