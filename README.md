@@ -1,3 +1,10 @@
+# CS 170 Fall 2019 Project
+# TeamFAV (Farhan, Alek, Vaibhav)
+To run out solver simply input the same commands as in the instructions  
+
+python3 solver.py --all inputs outputs  
+
+
 # Problem Statement
 Professor Rao and his army of TAs are working in Soda Hall late at night, writing the final exam for CS 170. Rao offers to drive and drop TAs off closer to their homes so that they can all get back safe despite the late hours. However, the roads are long, and Rao would also like to get back to Soda as soon as he can. Can you plan transportation so that everyone can get home as efficiently as possible?
 
