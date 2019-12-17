@@ -63,10 +63,10 @@ Your score on a particular output will be determined by the sum of the energy it
 Note that the 2 factor in the first term comes from the fact that the car driver expends 2 the amount of energy as a TA.
 
 # TeamFav's Solution
-# Modification of Christofides’ Algorithm
+#  Initial Naive Approach: Modification of Christofides’ Algorithm
 implementing a solution to this problem span Christofides’ Approximation algorithm for Traveling Salesman Problem (if such a reduction for Traveling Salesman is found to be useful). We believe this algorithm to be sound when finding an approximate cyclic path of the car ride as it approximates the optimal solution by a factor of 3/2.
 As Traveling Salesman is run on a complete graph we would add the missing edges by calculating a heuristic determined by the all-pairs shortest paths algorithm. We believe this heuristic to be good in order to account for and minimize walking distance given the dropoff location. If there exists a Hamiltonian cycle of locations that covers at least one location corresponding to a shortest path pair (either a TA’s home or dropoff location (a problem that can be reduced to metric TSP), a highly optimal approximate solution can be inferred.
-# Utilizing ILP
+# Finalized Approach: Utilizing ILP
 We took a modified ILP approach using Gurobi’s ILP solver. With Integer Linear Programming being reduced to Metric TSP, we can write the specification and proceed with the reduction accordingly:  
 1. The objective function would directly mirror the minimization of the cost function of the factored sum of the driver’s path and the sum of TA’s walking distance covered.
 2. The linear constraints would stipulate:  
