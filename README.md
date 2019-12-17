@@ -1,8 +1,8 @@
 # CS 170 Fall 2019 Project, TeamFAV
 
-Collaborators:   
-https://github.com/vaibhavrdbhat  
-https://github.com/farhanchowdhury  
+Collaborators:
+Bhat, Vaibhav @ https://github.com/vaibhavrdbhat
+Chowdhury, Farhan @ https://github.com/farhanchowdhury  
 
 # CS 170 Efficient Algorithms and Intractable Problems Fall 2019 P. Raghavendra and S. Rao
 
@@ -63,3 +63,26 @@ Your score on a particular output will be determined by the sum of the energy it
 ![alt text](https://github.com/Alek99/Integer-Linear-Programming-Transportation-Solver/blob/master/Screen%20Shot%202019-12-17%20at%2012.50.20%20AM.png)  
 
 Note that the 2 factor in the first term comes from the fact that the car driver expends 2 the amount of energy as a TA.
+
+# TeamFav's Solution
+# Modification of Christofides’ Algorithm
+implementing a solution to this problem span Christofides’ Approximation algorithm for Traveling Salesman Problem (if such a reduction for Traveling Salesman is found to be useful). We believe this algorithm to be sound when finding an approximate cyclic path of the car ride as it approximates the optimal solution by a factor of 3/2.
+As Traveling Salesman is run on a complete graph we would add the missing edges by calculating a heuristic determined by the all-pairs shortest paths algorithm. We believe this heuristic to be good in order to account for and minimize walking distance given the dropoff location. If there exists a Hamiltonian cycle of locations that covers at least one location corresponding to a shortest path pair (either a TA’s home or dropoff location (a problem that can be reduced to metric TSP), a highly optimal approximate solution can be inferred.
+Utilizing ILP
+We took a modified ILP approach using Gurobi’s ILP solver. With Integer Linear Programming being reduced to Metric TSP, we can write the specification and proceed with the reduction accordingly:
+1. The objective function would directly mirror the minimization of the cost function of the factored sum of the driver’s path and the sum of TA’s walking distance covered.
+2. The linear constraints would stipulate:
+a. that only one city can be visited from city 1 and that only one city is
+visited at each stage of travel.
+b. ensure that a given city is visited at exactly one stage of travel.
+Reducing ILP to Drive the TAs Home would be useful to ensure that all homes are spanned in addition to ensuring a cyclic path exists for the driver. After reducing the ILP using the Gurobi solver we tried to come up with an efficient drop off path the driver can take.
+ 
+  We reduced the Drive the TAs Home Problem to a modified Travelling Salesman Problem in which we cut ‘bridges’ in the graph and completing the subgraph by adding weighted edges based off of the all-pairs shortest path heuristic. The graph G is determined by the locations as the vertices and routes as the weighted edges. The graph is undirected therefore we have a symmetric matrix.
+In order to keep track of the locations that can guarantee that locations that are not in the houses that have degree 1 must be deleted in order to prevent useless traversal drive. We recurse this function in order to cut longer singular stretches of road.
+For all houses that have degree 1 should be cut from the graph as well as any cyclic path not including a drive to these houses will retain optimality as (2)(2⁄3)(D) total energy is greater than D.
+For any locations that can only be reached by two or less locations (the edge as degree two or less), we cut the location and its two incident edges. Keeping track of the edges is important in order to further compute what we call “bridges” - location is a home with degree 2 whose edges leave two distinct connected components on both ends when cut from the graph. Another type of edge would be along a singular path to a leaf or lead to a leaf itself.
+As TSP must be run on a complete graph, we add weighted edges by summing the entire row of the in-degree node, in order to avoid the TSP using these edges that are not really present.
+With the remaining graph, we run the ILP subtourelim and subtour function from the Gurobi ILP on all of its completed connected components before reconnecting the “bridges”.
+The ‘bridges’ are determined by checking if the edges that were cut connects two connected components.
+
+  After implementing our ILP solution and testing it on gradescope our drivers paths turned out as not valid. For every path there was From further investigating this we could not determine where Gurobi was failing so we reverted in out naive solution. Our naive solution is similar to TSP where the driver individually drives every student to their destination. Using this naive approach we were able to score in the top 1⁄3 of outputs.
