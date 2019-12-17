@@ -33,13 +33,13 @@ Sample input:
 4  
 Soda Dwinelle Wheeler Campanile Cory RSF Barrows Wheeler Campanile Cory RSF  
 Soda  
-x1x1xx1  
-1xx1xxx  
-xxx1xxx  
-111x111  
-xxx1xxx  
-xxx1xxx  
-1xx1xxx  
+x 1 x 1 x x 1   
+1 x x 1 x x x    
+x x x 1 x x x   
+1 1 1 x 1 1 1   
+x x x 1 x x x   
+x x x 1 x x x   
+1 x x 1 x x x    
 
 # Output Format
 The output file corresponding to an input must have the same name, except with the extension replaced by ".out". For example, the output file for "1.in" must be named "1.out".
