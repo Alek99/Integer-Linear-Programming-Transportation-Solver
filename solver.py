@@ -4,7 +4,10 @@ sys.path.append('..')
 sys.path.append('../..')
 import argparse
 import utils
-
+import math
+import random
+import numpy
+from gurobipy import *
 from student_utils import *
 from christofides  import *
 """
@@ -12,6 +15,59 @@ from christofides  import *
   Complete the following function.
 ======================================================================
 """
+# Callback - use lazy constraints to eliminate sub-tours
+def subtourelim(model, where):
+  if where == GRB.callback.MIPSOL:
+    selected = []
+    # make a list of edges selected in the solution
+    for i in range(n):
+      sol = model.cbGetSolution([model._vars[i,j] for j in range(n)])
+      selected += [(i,j) for j in range(n) if sol[j] > 0.5]
+    # find the shortest cycle in the selected edge list
+    tour = subtour(selected)
+    if len(tour) < n:
+      # add a subtour elimination constraint
+      expr = 0
+      for i in range(len(tour)):
+        for j in range(i+1, len(tour)):
+          expr += model._vars[tour[i], tour[j]]
+      model.cbLazy(expr <= len(tour)-1)
+
+
+# Euclidean distance between two points
+def distance(points, i, j, adj):
+  G = nx.from_numpy_matrix(numpy.matrix(adj))
+  totalsum = sum(map(sum,adj))
+  distancepoints =  sum(nx.shortest_path(G, i, j))
+  if (distancepoints == 0):
+      return totalsum
+  else:
+      return distancepoints
+
+
+# Given a list of edges, finds the shortest subtour
+def subtour(edges):
+  visited = [False]*n
+  cycles = []
+  lengths = []
+  selected = [[] for i in range(n)]
+  for x,y in edges:
+    selected[x].append(y)
+  while True:
+    current = visited.index(False)
+    thiscycle = [current]
+    while True:
+      visited[current] = True
+      neighbors = [x for x in selected[current] if not visited[x]]
+      if len(neighbors) == 0:
+        break
+      current = neighbors[0]
+      thiscycle.append(current)
+    cycles.append(thiscycle)
+    lengths.append(len(thiscycle))
+    if sum(lengths) == n:
+      break
+  return cycles[lengths.index(min(lengths))]
 
 def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_matrix, params=[]):
     """
@@ -26,16 +82,62 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
         A dictionary mapping drop-off location to a list of homes of TAs that got off at that particular location
         NOTE: both outputs should be in terms of indices not the names of the locations themselves
     """
-    # Rename vars for ease of use
-    locs  = list_of_locations
-    homes = list_of_homes
-    start = starting_car_location
-    edges = adjacency_matrix
 
-    ## TODO: Make the graph complete using the shortest-path-pair algorithm as a heuristic ##
 
-    # Run Christofides on the graph
-    length, path = tsp(edges)
+
+
+    adj = []
+    for r in adjacency_matrix:
+        new_row = [val if val is not 'x' else 0 for val in r]
+        adj.append(new_row)
+
+    global n
+    n = len(adj)
+    random.seed(4)
+    points = adj
+    m = Model()
+
+
+    vars = {}
+    for i in range(n):
+       for j in range(i+1):
+         vars[i,j] = m.addVar(obj=distance(points, i, j, adj), vtype=GRB.BINARY, name='e'+str(i)+'_'+str(j))
+         vars[j,i] = vars[i,j]
+       m.update()
+
+    for i in range(n):
+      m.addConstr(quicksum(vars[i,j] for j in range(n)) == 2)
+      vars[i,i].ub = 0
+    m.update()
+
+    m._vars = vars
+    m.params.LazyConstraints = 1
+
+    m.optimize(subtourelim)
+
+    solution = m.getAttr('x', vars)
+    selected = [(i,j) for i in range(n) for j in range(n) if solution[i,j] > 0.5]
+    #print(subtour(selected))
+    #print(adj)
+
+    returnarray = []
+    for i in subtour(selected):
+        returnarray.append(i)
+    returnarray = returnarray[:-1]
+    G = nx.from_numpy_matrix(numpy.matrix(adj))
+
+    temp = nx.shortest_path(G, len(returnarray)-1, 0)
+    for i in range(1, len(temp)):
+        returnarray.append(temp[i])
+    assert len(subtour(selected)) == n
+
+    home = {}
+    for i in list_of_homes:
+        home[list_of_locations.index(i)] = [list_of_locations.index(i)]
+
+    print(returnarray)
+    print(home)
+    return returnarray, home
 
 """
 ======================================================================
