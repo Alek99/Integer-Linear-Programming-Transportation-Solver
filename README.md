@@ -1,6 +1,6 @@
 # CS 170 Fall 2019 Project, TeamFAV
 
-Collaborators:
+Collaborators:  
 Bhat, Vaibhav @ https://github.com/vaibhavrdbhat  
 Chowdhury, Farhan @ https://github.com/farhanchowdhury  
 
