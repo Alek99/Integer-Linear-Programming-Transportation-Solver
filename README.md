@@ -1,4 +1,3 @@
-# CS 170 Fall 2019 Project
 # TeamFAV (Farhan, Alek, Vaibhav)
 To run out solver simply input the same commands as in the instructions  
 
