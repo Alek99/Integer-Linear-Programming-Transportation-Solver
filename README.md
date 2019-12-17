@@ -29,17 +29,17 @@ luv ≤d(u,w)+d(w,v)
 Additionally, it must be that lii = 0 (in the case of our input, we will have an ‘x’ present) and li j ̸= 0 when i ̸= j. 
 
 Sample input:
-7 
-4 
-Soda Dwinelle Wheeler Campanile Cory RSF Barrows Wheeler Campanile Cory RSF 
-Soda 
-x1x1xx1 
-1xx1xxx 
-xxx1xxx 
-111x111 
-xxx1xxx 
-xxx1xxx 
-1xx1xxx 
+7  
+4  
+Soda Dwinelle Wheeler Campanile Cory RSF Barrows Wheeler Campanile Cory RSF  
+Soda  
+x1x1xx1  
+1xx1xxx  
+xxx1xxx  
+111x111  
+xxx1xxx  
+xxx1xxx  
+1xx1xxx  
 
 # Output Format
 The output file corresponding to an input must have the same name, except with the extension replaced by ".out". For example, the output file for "1.in" must be named "1.out".
@@ -51,11 +51,11 @@ Each line in the rest of the output file should be a list of locations, the firs
 In the sample output below, the TA who lives in Cory is dropped off at Soda, the TAs who live in Wheeler and the RSF are dropped off at Dwinelle, and the TA who lives in the Campanile is dropped off at the Campanile.
 Sample output:
 
-Soda Dwinelle Campanile Barrows Soda 
-3 
-Soda Cory 
-Dwinelle Wheeler RSF 
-Campanile Campanile 
+Soda Dwinelle Campanile Barrows Soda  
+3  
+Soda Cory  
+Dwinelle Wheeler RSF  
+Campanile Campanile  
 
 # Submission Evaluation
 Your score on a particular output will be determined by the sum of the energy it takes the car to drive the route and the total energy it takes for all the TAs to walk home. You may assume that the TAs will take the shortest path home from whichever location they are dropped off at. Formally, let the path of the car be u0 . . . un−1 where u0 = un−1 = s, let b j be the location you drop off the j-th TA, and let h j be that TA’s home. Let li j be the length of the road between locations i and j (which must be adjacent), and di j be the shortest path distance between locations i and j (which need not be adjacent). Your score is given by:
